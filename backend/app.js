@@ -1,6 +1,5 @@
 import express from "express";
 import dotenv from "dotenv";
-import { PrismaClient } from "@prisma/client";
 import { userRoutes } from "./routes/user.js";
 import { postRoutes } from "./routes/post.js";
 import { genRoutes } from "./routes/general.js";
@@ -15,7 +14,6 @@ import passport from "passport";
 
 dotenv.config();
 const app = express();
-const prisma = new PrismaClient();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json);
