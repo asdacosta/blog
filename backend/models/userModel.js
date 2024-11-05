@@ -19,6 +19,15 @@ const findUniqueUser = async (id) => {
   }
 };
 
+const findUniqueUserByEmail = async (email) => {
+  try {
+    return await prisma.user.findUnique({ where: { email } });
+  } catch (error) {
+    console.error("Error finding unique user:", error);
+    throw error;
+  }
+};
+
 const findManyPosts = async (authorId) => {
   try {
     return await prisma.post.findMany({
@@ -115,4 +124,5 @@ export {
   createNewPost,
   updateOldPost,
   deleteOldPost,
+  findUniqueUserByEmail,
 };
