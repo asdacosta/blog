@@ -1,6 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-import { Strategy as LocalStrategy } from "passport-local";
 import {
   createNewUser,
   findUniqueUser,
@@ -8,7 +6,13 @@ import {
 } from "../models/userModel";
 import { compare, hash } from "bcryptjs";
 import { validationResult } from "express-validator";
+import { Strategy as LocalStrategy } from "passport-local";
+import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
+dotenv.config();
+const prisma = new PrismaClient();
 const signUpValidation = [
   body("first_name")
     .trim()
@@ -55,8 +59,8 @@ const postSignUp = async (req, res, next) => {
   try {
     hash(req.body.password, 10, async (errors, hashedPwd) => {
       if (err) return next(err);
+      const user = await createNewUser(req.body.email, hashedPwd);
     });
-    const user = await createNewUser(req.body.email, hashedPwd);
     return res.json(user);
   } catch (error) {
     return next(error);
@@ -69,6 +73,21 @@ const getLogOut = (req, res, next) => {
     res.redirect("/");
   });
 };
+
+const options = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET,
+};
+
+const jwtStrategy = new JwtStrategy(options, async (jwtPayLoad, done) => {
+  try {
+    const user = await findUniqueUserByEmail(email);
+    if (user) return done(null, user);
+    if (!user) return done(null, false);
+  } catch (error) {
+    return done(error, false);
+  }
+});
 
 const localStrategy = new LocalStrategy(
   { usernameField: "email" },
@@ -95,4 +114,21 @@ const deserialize = async (user, done) => {
   }
 };
 
-export { localStrategy, deserialize, signUpValidation, postSignUp, getLogOut };
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  if (!token) return res.sendStatus(403);
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403).json({ message: "Forbidden" });
+    req.user = user;
+    next();
+  });
+};
+
+export {
+  localStrategy,
+  deserialize,
+  signUpValidation,
+  postSignUp,
+  getLogOut,
+  jwtStrategy,
+};
