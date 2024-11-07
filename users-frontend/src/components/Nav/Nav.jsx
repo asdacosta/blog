@@ -10,8 +10,12 @@ function Nav() {
         <Link to="/">
           <button>Home</button>
         </Link>
-        <button>Sign In</button>
-        <button>Sign Up</button>
+        <Link to="/signIn">
+          <button>Sign In</button>
+        </Link>
+        <Link to="/signUp">
+          <button>Sign Up</button>
+        </Link>
       </section>
     </nav>
   );
