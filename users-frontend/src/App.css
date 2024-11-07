@@ -31,6 +31,10 @@ nav > section {
   gap: 0.5rem;
 }
 
+nav button {
+  background-color: transparent;
+}
+
 button {
   border: none;
   cursor: pointer;
