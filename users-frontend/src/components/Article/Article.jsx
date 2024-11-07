@@ -15,6 +15,11 @@ function Article() {
       </section>
       <section className="comment">
         <h2>Comments</h2>
+        <form action="" className="commentBox">
+          <input type="text" placeholder="Name" name="commentName" />
+          <input type="text" placeholder="Add comment..." name="commentText" />
+          <button>Add</button>
+        </form>
         {article.comments.map((comment, index) => (
           <div key={index}>
             <h3>{comment.user}</h3>
