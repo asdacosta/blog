@@ -24,17 +24,38 @@ const content = [
   },
   {
     header: "Taking Notes",
-    comments: 0,
+    commentNum: "0",
     img: secLaptop,
     alt: "Second Blog",
     link: "/article/2",
+    text: [
+      "Taking notes is an essential skill for programmers, whether you're learning a new language, troubleshooting a project, or keeping track of complex code logic. Effective notes can help you retain information, work more efficiently, and quickly revisit critical details. Here’s how you can make your notes more useful and organized for programming.",
+      "Learning: If you’re learning a new language, framework, or concept, notes can help reinforce your understanding and serve as a reference.",
+      "Documentation: Documenting code, functions, and processes can save time and make it easier for others (or future you!) to understand your work.",
+      "Troubleshooting: Noting down errors, solutions, and thought processes can help you avoid repetitive issues and streamline problem-solving.",
+      "Notes are most useful when they’re relevant and up-to-date. Periodically revisit your notes, refine them, add new insights, or remove outdated content. This habit keeps your notes sharp and aligned with your current knowledge level.",
+    ],
+    comments: [
+      { user: "Ace", comment: "Anything ah anything.", date: "Date" },
+      { user: "Draco", comment: "Once again.", date: "Date Now" },
+    ],
   },
   {
     header: "Settings",
-    comments: 0,
+    commentNum: "0",
     img: lastLaptop,
     alt: "Last Blog",
     link: "/article/3",
+    text: [
+      "Creating a physical setup optimized for programming can make a huge difference in comfort, focus, and overall productivity. Here are some important considerations for designing a workspace for programming:",
+      "Ergonomic Chair: Invest in an adjustable, ergonomic chair with lumbar support to maintain good posture during long coding sessions. Look for one with adjustable height, armrests, and seat depth.",
+      "Desk Space: Ensure you have enough desk space to comfortably accommodate your monitors, keyboard, mouse, and any other peripherals you need. Keep it clear to avoid distractions.",
+      "Setting up a workspace optimized for programming isn’t only about comfort—it’s also about efficiency and focus. These adjustments can help create a productive environment where you can code comfortably for hours.",
+    ],
+    comments: [
+      { user: "Ace", comment: "Anything ah anything.", date: "Date" },
+      { user: "Draco", comment: "Once again.", date: "Date Now" },
+    ],
   },
 ];
 
