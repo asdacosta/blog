@@ -3,8 +3,9 @@ const prisma = new PrismaClient();
 
 const findUniqueUser = async (id) => {
   try {
+    const userId = parseInt(id);
     return await prisma.user.findUnique({
-      where: { id },
+      where: { id: userId },
       include: {
         posts: {
           include: {
@@ -30,8 +31,9 @@ const findUniqueUserByEmail = async (email) => {
 
 const findManyPosts = async (authorId) => {
   try {
+    const authorIdInt = parseInt(authorId);
     return await prisma.post.findMany({
-      where: { authorId },
+      where: { authorId: authorIdInt },
       include: { comments: true },
     });
   } catch (error) {
@@ -42,7 +44,8 @@ const findManyPosts = async (authorId) => {
 
 const findUniquePost = async (id) => {
   try {
-    return await prisma.post.findUnique({ where: { id } });
+    const postId = parseInt(id);
+    return await prisma.post.findUnique({ where: { id: postId } });
   } catch (error) {
     console.error("Error finding unique post:", error);
     throw error;
@@ -51,7 +54,8 @@ const findUniquePost = async (id) => {
 
 const findManyComments = async (postId) => {
   try {
-    return await prisma.comment.findMany({ where: { postId } });
+    const postIdInt = parseInt(postId);
+    return await prisma.comment.findMany({ where: { postId: postIdInt } });
   } catch (error) {
     console.error("Error finding comments:", error);
     throw error;
@@ -77,6 +81,9 @@ const findManyAll = async () => {
 
 const createNewUser = async (email, password) => {
   try {
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) throw new Error("User with this email already exists");
+
     return await prisma.user.create({ data: { email, password } });
   } catch (error) {
     console.error("Error creating new user:", error);
@@ -86,7 +93,10 @@ const createNewUser = async (email, password) => {
 
 const createNewPost = async (title, content, authorId) => {
   try {
-    return await prisma.post.create({ data: { title, content, authorId } });
+    const authorIdInt = parseInt(authorId);
+    return await prisma.post.create({
+      data: { title, content, authorId: authorIdInt },
+    });
   } catch (error) {
     console.error("Error creating new post:", error);
     throw error;
@@ -95,8 +105,9 @@ const createNewPost = async (title, content, authorId) => {
 
 const updateOldPost = async (id, title, content) => {
   try {
+    const postId = parseInt(id);
     return await prisma.post.update({
-      where: { id },
+      where: { id: postId },
       data: { title, content },
     });
   } catch (error) {
@@ -107,7 +118,8 @@ const updateOldPost = async (id, title, content) => {
 
 const deleteOldPost = async (id) => {
   try {
-    await prisma.post.delete({ where: { id } });
+    const postId = parseInt(id);
+    await prisma.post.delete({ where: { id: postId } });
   } catch (error) {
     console.error("Error deleting post:", error);
     throw error;
