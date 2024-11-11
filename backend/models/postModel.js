@@ -3,7 +3,13 @@ const prisma = new PrismaClient();
 
 const findUniquePost = async (id) => {
   try {
-    return await prisma.post.findUnique({ where: { id } });
+    const postId = parseInt(id);
+    return await prisma.post.findUnique({
+      where: { id: postId },
+      include: {
+        comments: true,
+      },
+    });
   } catch (error) {
     console.error("Error finding unique post:", error);
     throw error;
@@ -12,8 +18,9 @@ const findUniquePost = async (id) => {
 
 const updateOldComment = async (id, content) => {
   try {
+    const commentId = parseInt(id);
     return await prisma.comment.update({
-      where: { id },
+      where: { id: commentId },
       data: { content },
     });
   } catch (error) {
@@ -24,7 +31,8 @@ const updateOldComment = async (id, content) => {
 
 const deleteOldComment = async (id) => {
   try {
-    await prisma.comment.delete({ where: { id } });
+    const commentId = parseInt(id);
+    await prisma.comment.delete({ where: { id: commentId } });
   } catch (error) {
     console.error("Error deleting comment:", error);
     throw error;
