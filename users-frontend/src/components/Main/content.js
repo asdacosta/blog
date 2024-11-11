@@ -8,7 +8,7 @@ const content = [
     commentNum: "0",
     img: firstLaptop,
     alt: "First Blog",
-    link: "/article/1",
+    link: "/post/1",
     text: [
       "Programming languages are essential tools in computer science, shaping how software developers and engineers communicate with computers to build applications, websites, and systems. Each programming language comes with its own syntax, design, and capabilities, making it suited for different types of projects and goals. Here’s a closer look at some major types of programming languages, how they differ, and where they’re used.",
       "High-Level Languages: These are designed to be closer to human language, which makes them easier to read and write. Examples include Python, Java, and C++. These languages are generally abstracted from machine code, making development faster and more accessible.",
@@ -27,7 +27,7 @@ const content = [
     commentNum: "0",
     img: secLaptop,
     alt: "Second Blog",
-    link: "/article/2",
+    link: "/post/2",
     text: [
       "Taking notes is an essential skill for programmers, whether you're learning a new language, troubleshooting a project, or keeping track of complex code logic. Effective notes can help you retain information, work more efficiently, and quickly revisit critical details. Here’s how you can make your notes more useful and organized for programming.",
       "Learning: If you’re learning a new language, framework, or concept, notes can help reinforce your understanding and serve as a reference.",
@@ -45,7 +45,7 @@ const content = [
     commentNum: "0",
     img: lastLaptop,
     alt: "Last Blog",
-    link: "/article/3",
+    link: "/post/3",
     text: [
       "Creating a physical setup optimized for programming can make a huge difference in comfort, focus, and overall productivity. Here are some important considerations for designing a workspace for programming:",
       "Ergonomic Chair: Invest in an adjustable, ergonomic chair with lumbar support to maintain good posture during long coding sessions. Look for one with adjustable height, armrests, and seat depth.",
