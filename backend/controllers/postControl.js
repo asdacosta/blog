@@ -7,8 +7,19 @@ import {
 const prisma = new PrismaClient();
 
 const getPost = async (req, res) => {
-  const post = await findUniquePost(req.params.postId);
-  res.json(post);
+  try {
+    const post = await findUniquePost(req.params.postId);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    post.createdAt = new Date(post.createdAt).toLocaleDateString();
+    post.comments = post.comments.map((comment) => ({
+      ...comment,
+      createdAt: new Date(comment.createdAt).toLocaleDateString(),
+    }));
+    res.json(post);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 const updateComment = async (req, res) => {
