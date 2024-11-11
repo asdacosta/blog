@@ -3,14 +3,15 @@ import {
   createNewUser,
   findUniqueUser,
   findUniqueUserByEmail,
-} from "../models/userModel";
-import { compare, hash } from "bcryptjs";
-import { validationResult } from "express-validator";
+} from "../models/userModel.js";
+import pkg from "bcryptjs";
+import { validationResult, body } from "express-validator";
 import { Strategy as LocalStrategy } from "passport-local";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
+const { compare, hash } = pkg;
 dotenv.config();
 const prisma = new PrismaClient();
 const signUpValidation = [
@@ -131,4 +132,5 @@ export {
   postSignUp,
   getLogOut,
   jwtStrategy,
+  authenticateToken,
 };
