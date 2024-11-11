@@ -1,9 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const createComment = async (userId, postId, content) => {
+const createComment = async (postId, name, content) => {
   try {
-    return await prisma.comment.create({ data: { content, postId, userId } });
+    const postIdInt = parseInt(postId);
+    return await prisma.comment.create({
+      data: { content, postId: postIdInt, name },
+    });
   } catch (error) {
     console.error("Error creating comment:", error);
     throw error;
