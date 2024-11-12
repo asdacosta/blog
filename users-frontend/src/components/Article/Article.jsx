@@ -12,7 +12,7 @@ function Article() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get(`/post/${id}`);
+        const response = await axios.get(`/api/post/${id}`);
         setArticle(response.data);
         console.log("Here's it: ", response.data);
       } catch (error) {
