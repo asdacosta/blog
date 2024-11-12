@@ -18,7 +18,7 @@ const getUser = async (req, res) => {
 };
 
 const getPosts = async (req, res) => {
-  const userPosts = await findManyPosts(req.params.userId);
+  const userPosts = await findManyPosts();
   res.json(userPosts);
 };
 
