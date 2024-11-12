@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { content } from "../Main/content";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -11,7 +10,7 @@ function Article() {
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchArticles = async () => {
+    const fetchArticle = async () => {
       try {
         const response = await axios.get(`/api/post/${id}`);
         setArticle(response.data);
@@ -22,7 +21,7 @@ function Article() {
       }
     };
 
-    fetchArticles();
+    fetchArticle();
   }, [id]);
 
   const handleCommentSubmit = async (event) => {
