@@ -29,13 +29,9 @@ const findUniqueUserByEmail = async (email) => {
   }
 };
 
-const findManyPosts = async (authorId) => {
+const findManyPosts = async () => {
   try {
-    const authorIdInt = parseInt(authorId);
-    return await prisma.post.findMany({
-      where: { authorId: authorIdInt },
-      include: { comments: true },
-    });
+    return await prisma.post.findMany({ include: { comments: true } });
   } catch (error) {
     console.error("Error finding posts:", error);
     throw error;
