@@ -1,12 +1,10 @@
-import firstLaptop from "../../assets/firstLaptop.jpg";
-import secLaptop from "../../assets/secLaptop.jpg";
-import lastLaptop from "../../assets/lastLaptop.jpg";
+import blogTemplate from "../../assets/blog.jpg";
 
 const content = [
   {
     header: "Programming Languages",
     commentNum: "0",
-    img: firstLaptop,
+    img: blogTemplate,
     alt: "First Blog",
     link: "/post/1",
     text: [
@@ -25,7 +23,7 @@ const content = [
   {
     header: "Taking Notes",
     commentNum: "0",
-    img: secLaptop,
+    img: blogTemplate,
     alt: "Second Blog",
     link: "/post/2",
     text: [
@@ -43,7 +41,7 @@ const content = [
   {
     header: "Settings",
     commentNum: "0",
-    img: lastLaptop,
+    img: blogTemplate,
     alt: "Last Blog",
     link: "/post/3",
     text: [
