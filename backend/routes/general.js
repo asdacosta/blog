@@ -2,12 +2,13 @@ import express from "express";
 import { PrismaClient } from "@prisma/client";
 import { createComment } from "../models/genModel.js";
 import { getPosts } from "../controllers/userControl.js";
+import { findManyPosts } from "../models/userModel.js";
 
 const genRoutes = express.Router();
 const prisma = new PrismaClient();
 
 genRoutes.get("/", async (req, res) => {
-  const posts = await getPosts();
+  const posts = await findManyPosts();
   res.json(posts);
 });
 
