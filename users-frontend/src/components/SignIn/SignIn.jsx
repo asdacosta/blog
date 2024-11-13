@@ -7,7 +7,7 @@ function SignIn() {
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
-    event.preventDefault();
+    e.preventDefault();
     try {
       const response = await axios.post("/api/log-in", { email, pwd });
       localStorage.setItem("token", response.data.token);
