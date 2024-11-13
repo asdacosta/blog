@@ -8,9 +8,15 @@ import {
   findManyPosts,
   findUniquePost,
   findUniqueUser,
+  findUniqueUserByEmail,
   updateOldPost,
 } from "../models/userModel.js";
 const prisma = new PrismaClient();
+import pkg from "bcryptjs";
+const { hash, compare } = pkg;
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const getUser = async (req, res) => {
   const userInfo = await findUniqueUser(req.params.userId);
@@ -38,8 +44,25 @@ const getAllData = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const newUser = await createNewUser(req.body.email, req.body.password);
-  res.json(newUser);
+  try {
+    const { email, password } = req.body;
+    const existingUser = await findUniqueUserByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    let user = null;
+    hash(password, 10, async (err, hashedPwd) => {
+      if (err) return next(err);
+      user = await createNewUser(email, hashedPwd);
+      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+        expiresIn: "2h",
+      });
+    });
+    res.status(201).json({ message: "User created successfully", token });
+  } catch (error) {
+    res.status(500).json({ message: "Error creating user", error });
+  }
 };
 
 const createPost = async (req, res) => {
