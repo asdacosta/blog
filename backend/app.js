@@ -16,7 +16,11 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
-import { createNewPost, createNewUser } from "./models/userModel.js";
+import {
+  createNewPost,
+  createNewUser,
+  findUniqueUserByEmail,
+} from "./models/userModel.js";
 import { createComment } from "./models/genModel.js";
 const prisma = new PrismaClient();
 
@@ -41,8 +45,9 @@ app.use(
   })
 );
 
-passport.use(localStrategy);
+// passport.use(localStrategy);
 passport.use(jwtStrategy);
+app.use(passport.initialize());
 
 app.use("/user", authenticateToken, userRoutes);
 app.use("/post", postRoutes);
@@ -52,14 +57,23 @@ app.get("/log-out", getLogOut);
 app.post("/sign-up", signUpValidation, postSignUp);
 app.post(
   "/log-in",
-  passport.authenticate("local", { session: false }, (req, res) => {
-    if (!req.user) {
-      return res.status(401).json({ message: "Invalid credentials" });
+  passport.authenticate("local", { session: false }, async (req, res) => {
+    const { email, password } = req.body;
+    try {
+      const user = await findUniqueUserByEmail(email);
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+      if (!req.user) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+        expiresIn: "2h",
+      });
+      res.json({ message: "Login successful", token });
+    } catch (error) {
+      res.status(500).json({ message: "Error logging in", error });
     }
-    const token = jwt.sign({ userId: req.user.id }, process.env.JWT_SECRET, {
-      expiresIn: "2h",
-    });
-    res.json({ message: "Login successful", token });
   })
 );
 
