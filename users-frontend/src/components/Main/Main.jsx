@@ -12,7 +12,6 @@ function Main() {
     const fetchArticles = async () => {
       try {
         const response = await axios.get("/api");
-        console.log("That response: ", response.data);
         setArticles(response.data);
       } catch (error) {
         setError("Failed to fetch article");
