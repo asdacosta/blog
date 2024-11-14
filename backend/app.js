@@ -22,7 +22,6 @@ import {
   findUniqueUserByEmail,
 } from "./models/userModel.js";
 import { createComment } from "./models/genModel.js";
-const prisma = new PrismaClient();
 
 // const newUser = await createNewUser("ace@gmail.com", "ace1$");
 // const hisPost = await createNewPost(
@@ -35,9 +34,10 @@ const prisma = new PrismaClient();
 
 dotenv.config();
 const app = express();
+const prisma = new PrismaClient();
 
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -45,7 +45,7 @@ app.use(
   })
 );
 
-// passport.use(localStrategy);
+passport.use(localStrategy);
 passport.use(jwtStrategy);
 app.use(passport.initialize());
 
@@ -58,10 +58,10 @@ app.post("/sign-up", signUpValidation, postSignUp);
 app.post(
   "/log-in",
   passport.authenticate("local", { session: false }, async (req, res) => {
-    const { email, password } = req.body;
+    const { email, pwd } = req.body;
     try {
       const user = await findUniqueUserByEmail(email);
-      if (!user || !(await bcrypt.compare(password, user.password))) {
+      if (!user || !(await bcrypt.compare(pwd, user.password))) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
       if (!req.user) {
