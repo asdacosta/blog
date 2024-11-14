@@ -15,18 +15,6 @@ const { compare, hash } = pkg;
 dotenv.config();
 const prisma = new PrismaClient();
 const signUpValidation = [
-  body("first_name")
-    .trim()
-    .notEmpty()
-    .withMessage("Name is required.")
-    .isAlpha()
-    .withMessage("Name must contain only letters."),
-  body("last_name")
-    .trim()
-    .notEmpty()
-    .withMessage("Name is required.")
-    .isAlpha()
-    .withMessage("Name must contain only letters."),
   body("email")
     .trim()
     .isEmail()
@@ -37,7 +25,7 @@ const signUpValidation = [
       return true;
     })
     .normalizeEmail(),
-  body("password")
+  body("pwd")
     .isLength({ min: 5 })
     .withMessage("Password must be at least 5 chars.")
     .matches(/\d/)
@@ -45,7 +33,7 @@ const signUpValidation = [
     .matches(/[!@#$%^&*]/)
     .withMessage("Password must contain special char.")
     .escape(),
-  body("confirm_password").custom((value, { req }) => {
+  body("pwd-confirm").custom((value, { req }) => {
     if (value !== req.body.password) {
       throw new Error("The passwords don't match.");
     }
@@ -55,14 +43,28 @@ const signUpValidation = [
 
 const postSignUp = async (req, res, next) => {
   const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.json(req.body);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
   try {
-    hash(req.body.password, 10, async (errors, hashedPwd) => {
-      if (err) return next(err);
-      const user = await createNewUser(req.body.email, hashedPwd);
+    const { email, pwd } = req.body;
+    const existingUser = await findUniqueUserByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    hash(pwd, 10, async (error, hashedPwd) => {
+      if (error) return next(error);
+      const user = await createNewUser(email, hashedPwd);
+      console.log("Created? : ", user);
+      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+        expiresIn: "2h",
+      });
+      return res
+        .status(201)
+        .json({ message: "User created successfully", token });
     });
-    return res.json(user);
   } catch (error) {
     return next(error);
   }
