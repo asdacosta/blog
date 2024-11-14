@@ -10,10 +10,10 @@ function Nav() {
         <Link to="/">
           <button>Home</button>
         </Link>
-        <Link to="/signIn">
+        <Link to="/sign-in">
           <button>Sign In</button>
         </Link>
-        <Link to="/signUp">
+        <Link to="/sign-up">
           <button>Sign Up</button>
         </Link>
       </section>

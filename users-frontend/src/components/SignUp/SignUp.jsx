@@ -24,9 +24,9 @@ function SignUp() {
     }
 
     try {
-      const response = await axios.post("/api/user", {
+      const response = await axios.post("/api/sign-up", {
         email: formData.email,
-        password: formData.pwd,
+        pwd: formData.pwd,
       });
       if (response.status === 201 || response.status === 200) {
         localStorage.setItem("token", response.data.token);
