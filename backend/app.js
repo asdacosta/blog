@@ -21,6 +21,8 @@ import {
   createNewUser,
   findUniqueUserByEmail,
 } from "./models/userModel.js";
+import pkg from "bcryptjs";
+const { hash, compare } = pkg;
 import { createComment } from "./models/genModel.js";
 
 // const newUser = await createNewUser("ace@gmail.com", "ace1$");
@@ -55,27 +57,26 @@ app.use("/", genRoutes);
 
 app.get("/log-out", getLogOut);
 app.post("/sign-up", signUpValidation, postSignUp);
-app.post(
-  "/log-in",
-  passport.authenticate("local", { session: false }, async (req, res) => {
-    const { email, pwd } = req.body;
-    try {
-      const user = await findUniqueUserByEmail(email);
-      if (!user || !(await bcrypt.compare(pwd, user.password))) {
-        return res.status(401).json({ message: "Invalid credentials" });
-      }
-      if (!req.user) {
-        return res.status(401).json({ message: "Invalid credentials" });
-      }
-      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-        expiresIn: "2h",
-      });
-      res.json({ message: "Login successful", token });
-    } catch (error) {
-      res.status(500).json({ message: "Error logging in", error });
+app.post("/log-in", async (req, res) => {
+  const { email, pwd } = req.body;
+  try {
+    const user = await findUniqueUserByEmail(email);
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
-  })
-);
+    const isPasswordValid = await compare(pwd, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "2h",
+    });
+    res.json({ message: "Login successful", token });
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(500).json({ message: "Error logging in", error });
+  }
+});
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
