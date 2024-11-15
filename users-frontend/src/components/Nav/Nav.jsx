@@ -1,17 +1,12 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Nav() {
-  const [token, setToken] = useState(false);
-
-  useEffect(() => {
-    const loggedIn = !!localStorage.getItem("token");
-    setToken(loggedIn);
-  }, []);
+  const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem("token");
 
   const handleLogOut = () => {
     localStorage.removeItem("token");
-    setToken(false);
+    navigate("/");
   };
 
   return (
@@ -20,11 +15,10 @@ function Nav() {
         <h3>Blog</h3>
       </Link>
       <section>
-        {token ? (
+        {isLoggedIn ? (
+          <button onClick={handleLogOut}>Log Out</button>
+        ) : (
           <>
-            <Link to="/">
-              <button>Home</button>
-            </Link>
             <Link to="/sign-in">
               <button>Sign In</button>
             </Link>
@@ -32,8 +26,6 @@ function Nav() {
               <button>Sign Up</button>
             </Link>
           </>
-        ) : (
-          <button onClick={handleLogOut}>Log Out</button>
         )}
       </section>
     </nav>
