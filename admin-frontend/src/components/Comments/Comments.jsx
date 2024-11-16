@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Comments() {
   const [articles, setArticles] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -23,8 +25,10 @@ function Comments() {
 
   const handleDelete = async (articleId, commentId) => {
     try {
-      const response = await axios.delete(`/api/post/comments/${id}`);
-      if (response.status === 201 || response.status === 200) {
+      const response = await axios.delete(
+        `/api/admin/comments/${articleId}/${commentId}`
+      );
+      if (response.status === 200) {
         setArticles((prevArticles) =>
           prevArticles.map((article) =>
             article.id === articleId
@@ -38,8 +42,9 @@ function Comments() {
           )
         );
       }
+      navigate("/comments");
     } catch (error) {
-      setError("Failed to unpublish post");
+      setError("Failed to delete comment");
       console.error(error);
     }
   };
