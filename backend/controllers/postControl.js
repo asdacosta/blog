@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import {
   deleteOldComment,
+  findManyPublishedPosts,
+  findManyUnpublishedPosts,
   findUniquePost,
   updateOldComment,
 } from "../models/postModel.js";
@@ -22,6 +24,24 @@ const getPost = async (req, res) => {
   }
 };
 
+const getPublishedPosts = async (req, res) => {
+  try {
+    const posts = await findManyPublishedPosts();
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const getUnpublishedPosts = async (req, res) => {
+  try {
+    const posts = await findManyUnpublishedPosts();
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const updateComment = async (req, res) => {
   const updatedComment = await updateOldComment(
     req.params.commentId,
@@ -35,4 +55,10 @@ const deleteComment = async (req, res) => {
   res.json({ message: "Comment deleted." });
 };
 
-export { getPost, updateComment, deleteComment };
+export {
+  getPost,
+  updateComment,
+  deleteComment,
+  getPublishedPosts,
+  getUnpublishedPosts,
+};
