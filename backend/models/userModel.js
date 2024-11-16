@@ -112,6 +112,45 @@ const updateOldPost = async (id, title, content) => {
   }
 };
 
+const unpublishOldPost = async (id) => {
+  try {
+    const postId = parseInt(id);
+    return await prisma.post.update({
+      where: { id: postId },
+      data: { published: false },
+    });
+  } catch (error) {
+    console.error("Error updating post:", error);
+    throw error;
+  }
+};
+
+const publishOldPost = async (id) => {
+  try {
+    const postId = parseInt(id);
+    return await prisma.post.update({
+      where: { id: postId },
+      data: { published: true },
+    });
+  } catch (error) {
+    console.error("Error updating post:", error);
+    throw error;
+  }
+};
+
+const deleteOldComment = async (articleId, commentId) => {
+  try {
+    const articleIdInt = parseInt(articleId);
+    const commentIdInt = parseInt(commentId);
+    await prisma.comment.delete({
+      where: { id: commentIdInt, postId: articleIdInt },
+    });
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    throw error;
+  }
+};
+
 const deleteOldPost = async (id) => {
   try {
     const postId = parseInt(id);
@@ -133,4 +172,7 @@ export {
   updateOldPost,
   deleteOldPost,
   findUniqueUserByEmail,
+  unpublishOldPost,
+  publishOldPost,
+  deleteOldComment,
 };
