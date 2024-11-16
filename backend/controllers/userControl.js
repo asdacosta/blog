@@ -89,7 +89,6 @@ const publishPost = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   await deleteOldComment(req.params.articleId, req.params.commentId);
-  res.status(200);
 };
 
 const updatePost = async (req, res) => {
