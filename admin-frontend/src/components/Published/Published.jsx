@@ -23,7 +23,7 @@ function Published() {
 
   const handleUnpublish = async (id) => {
     try {
-      const response = await axios.post(`/api/post/published/unpublish/${id}`);
+      const response = await axios.post(`/api/admin/published/unpublish/${id}`);
       if (response.status === 201 || response.status === 200) {
         setArticles((prev) => prev.filter((article) => article.id !== id));
       }
