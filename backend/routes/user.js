@@ -19,7 +19,7 @@ userRoutes.get("/:userId/posts/:postId", getPost);
 userRoutes.get("/:userId/posts/:postId/comments", getComments);
 userRoutes.get("/all", getAllData);
 userRoutes.post("/", createUser);
-userRoutes.post("/:userId/post", createPost);
+userRoutes.post("/post/:userId", createPost);
 userRoutes.put("/:userId/post/:postId", updatePost);
 userRoutes.delete("/:userId/post/:postId", deletePost);
 
