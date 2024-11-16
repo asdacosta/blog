@@ -16,6 +16,24 @@ const findUniquePost = async (id) => {
   }
 };
 
+const findManyPublishedPosts = async () => {
+  try {
+    return await prisma.post.findMany({ where: { published: true } });
+  } catch (error) {
+    console.error("Error finding published posts:", error);
+    throw error;
+  }
+};
+
+const findManyUnpublishedPosts = async () => {
+  try {
+    return await prisma.post.findMany({ where: { published: false } });
+  } catch (error) {
+    console.error("Error finding published posts:", error);
+    throw error;
+  }
+};
+
 const updateOldComment = async (id, content) => {
   try {
     const commentId = parseInt(id);
@@ -39,4 +57,10 @@ const deleteOldComment = async (id) => {
   }
 };
 
-export { findUniquePost, updateOldComment, deleteOldComment };
+export {
+  findUniquePost,
+  updateOldComment,
+  deleteOldComment,
+  findManyPublishedPosts,
+  findManyUnpublishedPosts,
+};
