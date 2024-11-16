@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import {
   createNewPost,
   createNewUser,
+  deleteOldComment,
   deleteOldPost,
   findManyAll,
   findManyComments,
@@ -9,6 +10,8 @@ import {
   findUniquePost,
   findUniqueUser,
   findUniqueUserByEmail,
+  publishOldPost,
+  unpublishOldPost,
   updateOldPost,
 } from "../models/userModel.js";
 const prisma = new PrismaClient();
@@ -74,6 +77,21 @@ const createPost = async (req, res) => {
   res.json(newPost);
 };
 
+const unpublishPost = async (req, res) => {
+  const updatedPost = await unpublishOldPost(req.params.id);
+  res.json(updatedPost);
+};
+
+const publishPost = async (req, res) => {
+  const updatedPost = await publishOldPost(req.params.id);
+  res.json(updatedPost);
+};
+
+const deleteComment = async (req, res) => {
+  await deleteOldComment(req.params.articleId, req.params.commentId);
+  res.status(200);
+};
+
 const updatePost = async (req, res) => {
   const updatedPost = await updateOldPost(
     req.params.postId,
@@ -98,4 +116,7 @@ export {
   createPost,
   updatePost,
   deletePost,
+  unpublishPost,
+  publishPost,
+  deleteComment,
 };
