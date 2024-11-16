@@ -24,6 +24,7 @@ import {
 import pkg from "bcryptjs";
 const { hash, compare } = pkg;
 import { createComment } from "./models/genModel.js";
+import { adminRoutes } from "./routes/admin.js";
 
 // const newUser = await createNewUser("ace@gmail.com", "ace1$");
 // const hisPost = await createNewPost(
@@ -53,6 +54,7 @@ app.use(passport.initialize());
 
 app.use("/user", authenticateToken, userRoutes);
 app.use("/post", postRoutes);
+app.use("/admin", adminRoutes);
 app.use("/", genRoutes);
 
 app.get("/log-out", getLogOut);
@@ -77,6 +79,8 @@ app.post("/log-in", async (req, res) => {
     res.status(500).json({ message: "Error logging in", error });
   }
 });
+
+app;
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
