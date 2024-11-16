@@ -23,12 +23,12 @@ function Unpublished() {
 
   const handlePublish = async (id) => {
     try {
-      const response = await axios.post(`/api/unpublished/publish/${id}`);
+      const response = await axios.post(`/api/admin/unpublished/publish/${id}`);
       if (response.status === 201 || response.status === 200) {
         setArticles((prev) => prev.filter((article) => article.id !== id));
       }
     } catch (error) {
-      setError("Failed to unpublish post");
+      setError("Failed to publish post");
     }
   };
 
