@@ -28,7 +28,7 @@ function Comments() {
       const response = await axios.delete(
         `/api/admin/comments/${articleId}/${commentId}`
       );
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 204) {
         setArticles((prevArticles) =>
           prevArticles.map((article) =>
             article.id === articleId
@@ -42,7 +42,6 @@ function Comments() {
           )
         );
       }
-      navigate("/comments");
     } catch (error) {
       setError("Failed to delete comment");
       console.error(error);
