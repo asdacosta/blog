@@ -23,17 +23,7 @@ import {
 } from "./models/userModel.js";
 import pkg from "bcryptjs";
 const { hash, compare } = pkg;
-import { createComment } from "./models/genModel.js";
 import { adminRoutes } from "./routes/admin.js";
-
-// const newUser = await createNewUser("ace@gmail.com", "ace1$");
-// const hisPost = await createNewPost(
-//   "Programming Languages",
-//   "Programming languages are essential tools in computer science, shaping how software developers and engineers communicate with computers to build applications, websites, and systems. Each programming language comes with its own syntax, design, and capabilities, making it suited for different types of projects and goals. Here’s a closer look at some major types of programming languages, how they differ, and where they’re used. High-Level Languages: These are designed to be closer to human language, which makes them easier to read and write. Examples include Python, Java, and C++. These languages are generally abstracted from machine code, making development faster and more accessible. Low-Level Languages: Closer to machine code, these languages are less abstract and more hardware-specific. Assembly language and Machine code are typical examples. They are mainly used in system programming, where direct memory and CPU management are needed.",
-//   1
-// );
-// const hisComment = await createComment(1, "Ace", "Anything ah anything");
-// console.log("Here he is: ", newUser, hisPost, hisComment);
 
 dotenv.config();
 const app = express();
