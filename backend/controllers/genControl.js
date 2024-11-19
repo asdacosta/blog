@@ -79,7 +79,7 @@ const getLogOut = (req, res, next) => {
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET,
+  secretOrKey: process.env.SUPABASE_JWT_SECRET,
 };
 
 const jwtStrategy = new JwtStrategy(options, async (jwtPayLoad, done) => {
