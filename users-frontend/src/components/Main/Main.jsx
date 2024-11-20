@@ -11,10 +11,7 @@ function Main() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        // const response = await axios.get("/api");
-        const response = await axios.get(
-          "https://blog-server-bpfu.onrender.com"
-        );
+        const response = await axios.get("/api");
         setArticles(response.data);
       } catch (error) {
         setError("Failed to fetch article");
