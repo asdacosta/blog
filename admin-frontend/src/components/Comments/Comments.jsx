@@ -25,8 +25,11 @@ function Comments() {
 
   const handleDelete = async (articleId, commentId) => {
     try {
+      // const response = await axios.delete(
+      //   `/api/admin/comments/${articleId}/${commentId}`
+      // );
       const response = await axios.delete(
-        `/api/admin/comments/${articleId}/${commentId}`
+        `https://blog-server-bpfu.onrender.com/admin/comments/${articleId}/${commentId}`
       );
       if (response.status === 200 || response.status === 204) {
         setArticles((prevArticles) =>

@@ -12,7 +12,10 @@ function Article() {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`/api/post/${id}`);
+        // const response = await axios.get(`/api/post/${id}`);
+        const response = await axios.get(
+          `https://blog-server-bpfu.onrender.com/post/${id}`
+        );
         setArticle(response.data);
       } catch (error) {
         setError("Failed to fetch article");
