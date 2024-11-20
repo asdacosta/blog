@@ -57,10 +57,13 @@ const postSignUp = async (req, res, next) => {
     hash(pwd, 10, async (error, hashedPwd) => {
       if (error) return next(error);
       const user = await createNewUser(email, hashedPwd);
-      console.log("Created? : ", user);
-      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-        expiresIn: "2h",
-      });
+      const token = jwt.sign(
+        { userId: user.id },
+        process.env.SUPABASE_JWT_SECRET,
+        {
+          expiresIn: "2h",
+        }
+      );
       return res
         .status(201)
         .json({ message: "User created successfully", token });
