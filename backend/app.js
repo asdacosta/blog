@@ -75,9 +75,7 @@ app.post("/log-in", async (req, res) => {
   }
 });
 
-app;
-
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Port ${PORT} ongoing!`);
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log(`Port ${port} ongoing!`);
 });
