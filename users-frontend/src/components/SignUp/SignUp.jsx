@@ -34,7 +34,7 @@ function SignUp() {
       }
     } catch (error) {
       setError("Failed to create user. Try again.");
-      console.error(error);
+      console.error(error.response.data);
     }
   };
 
