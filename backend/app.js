@@ -37,7 +37,7 @@ app.use(
       "http://localhost:3000",
       "https://blog-admin-6fh6.onrender.com",
       "https://blog-users-dhof.onrender.com",
-      "https://blog-server-bpfu.onrender.com/",
+      "https://blog-server-bpfu.onrender.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
