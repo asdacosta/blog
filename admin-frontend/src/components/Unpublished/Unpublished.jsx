@@ -9,7 +9,10 @@ function Unpublished() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get("/api/post/unpublished");
+        // const response = await axios.get("/api/post/unpublished");
+        const response = await axios.get(
+          "https://blog-server-bpfu.onrender.com/post/unpublished"
+        );
         setArticles(response.data);
       } catch (error) {
         setError("Failed to fetch articles");
