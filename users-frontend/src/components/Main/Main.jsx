@@ -11,6 +11,8 @@ function Main() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
+        // For local
+        // const response = await axios.get("/api");
         const response = await axios.get(
           "https://blog-server-bpfu.onrender.com"
         );
