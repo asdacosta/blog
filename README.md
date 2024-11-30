@@ -48,6 +48,10 @@
 
 <img src="./readme-assets/users/mobile.jpg" alt="desktop view">
 
+</details>
+
+<details>
+
 **<summary> Admin screen views</summary>**
 
 **Desktop View:**
